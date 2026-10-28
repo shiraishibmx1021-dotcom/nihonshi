@@ -212,7 +212,10 @@
   .vflow .vstep{flex:1 1 0;min-width:80px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:10px 6px;background:var(--card);font-family:var(--mincho);font-weight:700;font-size:13px;color:var(--ivory);display:flex;align-items:center;justify-content:center;}
   .vflow .vto{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);min-width:30px;}
   .vflow .vto b{font-size:15px;line-height:1;}.vflow .vto>span{font-size:9px;color:var(--ash);text-align:center;line-height:1.3;margin-top:2px;}
-  .vs{border:1px solid var(--line);border-radius:11px;overflow:hidden;}
+  div.vs{border:1px solid var(--line);border-radius:11px;overflow:hidden;}
+  /* 流れ図の箱の中：見出し（vh）と説明（vs）を2行に分ける */
+  .vstep>.vh{display:block;color:var(--gold);}
+  .vstep>.vs{display:block;margin-top:6px;font-family:var(--gothic);font-weight:400;font-size:12.5px;color:var(--ivory-dim);line-height:1.9;}
   .vs>div{display:grid;grid-template-columns:1fr 1fr;}
   .vs .vh{background:var(--card-2);}.vs .vh>span{font-family:var(--mincho);font-weight:700;font-size:14px;color:var(--gold);padding:11px 8px;text-align:center;}
   .vs .vh>span:first-child{border-right:1px solid var(--line);}
