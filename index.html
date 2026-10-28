@@ -391,9 +391,12 @@
   #lBody .yodan .kw,.yodan .kw{color:inherit !important;font-weight:inherit !important;border:none !important;-webkit-text-stroke:0 !important;}
   .yodan b{color:var(--ivory) !important;font-weight:700;}
 
-  /* ふりがな：読みが長くても本文の字間を広げない */
-  #lBody ruby,.cz-text ruby{display:inline-block;position:relative;text-indent:0;}
-  #lBody ruby rt,.cz-text ruby rt{position:absolute;left:50%;top:-0.95em;transform:translateX(-50%);white-space:nowrap;line-height:1;text-align:center;}
+
+  /* ふりがな：<ruby>を独自の要素に置きかえて、字間を広げずに真上に置く（iPadのSafariでもずれない） */
+  .rbx{position:relative;display:inline-block;text-indent:0;}
+  .rtx{position:absolute;left:50%;bottom:100%;transform:translate(-50%,0.2em);font-size:.55em;font-weight:400;line-height:1;letter-spacing:.02em;white-space:nowrap;color:var(--ash);-webkit-text-fill-color:var(--ash);pointer-events:none;user-select:none;}
+  .kw .rtx{color:var(--gold-deep);-webkit-text-fill-color:var(--gold-deep);}
+  b .rtx{color:inherit;-webkit-text-fill-color:currentColor;opacity:.65;}
 </style>
 </head>
 <body>
@@ -676,7 +679,8 @@ function findLessonForAnswer(q){
   return i>=0?{idx:i,mark}:null;
 }
 function highlightInBody(body,mark){
-  let el=[...body.querySelectorAll(".kw")].find(k=>k.textContent.includes(mark));
+  const _pt=k=>{const c=k.cloneNode(true);c.querySelectorAll("rt,.rtx").forEach(x=>x.remove());return c.textContent;};
+  let el=[...body.querySelectorAll(".kw")].find(k=>_pt(k).includes(mark));
   if(el){ el.classList.add("hl-jump"); return el; }
   const walker=document.createTreeWalker(body,NodeFilter.SHOW_TEXT,null); let node;
   while(node=walker.nextNode()){ const idx=node.nodeValue.indexOf(mark);
@@ -866,7 +870,7 @@ function rankOf(p,text){
 }
 function applyRanks(root,p){
   const seenC=new Set();
-  root.querySelectorAll(".kw").forEach(el=>{ if(el.closest(".yodan")){el.classList.remove("rk-A","rk-B","rk-C");return;} const c=el.cloneNode(true); c.querySelectorAll("rt").forEach(r=>r.remove());
+  root.querySelectorAll(".kw").forEach(el=>{ if(el.closest(".yodan")){el.classList.remove("rk-A","rk-B","rk-C");return;} const c=el.cloneNode(true); c.querySelectorAll("rt,.rtx").forEach(r=>r.remove());
     const t=c.textContent.trim(), r=rankOf(p,t);
     el.classList.remove("rk-A","rk-B","rk-C","rk-dup");
     if(r==="C"){ if(seenC.has(t)){ el.classList.add("rk-dup"); return; } seenC.add(t); }
@@ -884,7 +888,7 @@ function czFromLessons(p){
   const tmp=document.createElement("div");
   tmp.innerHTML=p.lessons.map(l=>l.html||"").join("");
   tmp.querySelectorAll("details,.point,.yodan,.recall,.nyushi,.engn,.viz,svg,.rk-legend").forEach(d=>d.remove());
-  tmp.querySelectorAll("rt").forEach(r=>r.remove());
+  tmp.querySelectorAll("rt,.rtx").forEach(r=>r.remove());
   const META=/授業|ここで|思い出そう|見ていこう|見よう|つかもう|整理しよう|覚えよう|おこう|しよう|ていこう|ひとことで|入試|問題|教科書|わかるかな|君|だよね|よね。|でしょ|かな。|！|？|\?|ちょっと|さて|では、|じゃあ|ところで|まず、|次に、|ここから/;
   const KJ=/[\u4e00-\u9fff々]/;
   const used=new Set(); const parts=[];
@@ -1017,6 +1021,25 @@ document.addEventListener("keydown",e=>{ if(activeSec!=="quiz")return; if(docume
   document.getElementById("shuffleBtn").style.opacity="1";
   renderActivePack();
   switchSec(activeSec);
+})();
+
+/* ふりがなの置きかえ */
+function fixRuby(root){
+  (root||document).querySelectorAll("ruby").forEach(r=>{
+    const rt=r.querySelector("rt"); if(!rt) return;
+    const reading=rt.textContent; rt.remove();
+    r.querySelectorAll("rp").forEach(x=>x.remove());
+    const box=document.createElement("span"); box.className="rbx";
+    while(r.firstChild) box.appendChild(r.firstChild);
+    const t=document.createElement("span"); t.className="rtx"; t.textContent=reading; box.appendChild(t);
+    r.replaceWith(box);
+  });
+}
+(function(){
+  let pending=false;
+  const run=()=>{pending=false; fixRuby(document.body);};
+  new MutationObserver(()=>{ if(!pending){pending=true; requestAnimationFrame(run);} }).observe(document.documentElement,{childList:true,subtree:true});
+  document.addEventListener("DOMContentLoaded",()=>fixRuby(document.body));
 })();
 </script>
 <script>

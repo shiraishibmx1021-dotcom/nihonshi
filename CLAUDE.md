@@ -1,0 +1,16 @@
+# Claude Code への指示
+
+大学受験（慶應商A方式・共通テスト）の日本史用に作った、自分専用の学習アプリ。
+公開URL：https://shiraishibmx1021-dotcom.github.io/nihonshi/ （iPhone のホーム画面に追加して、オフラインでも使っている）
+
+1. 作業の前に、必ず `HANDOVER.md` を最初から最後まで読むこと。書き方の基準（§3、とくに §3-5 おもしろくする工夫）と穴埋めの作り方（§7）がいちばん大事。授業はおもしろくないと意味がない。
+2. 編集するのは `app/source.html`（未圧縮）。公開版は `cd tools && python3 pack_out.py ../app/source.html ../index.html` でつくる。`index.html` を直接編集しない。
+3. スクリプトは `tools/` で実行する（辞書を相対パスで読む）。
+4. 授業を書く前に、教科書（Google Drive の1ページ1ファイル）をその範囲すべて読む。記憶だけで書かない。
+5. 守ること：
+   - 1ファイル構成を保つ。外部から読み込んでいいのは Google Fonts だけ。
+   - pack の `id`、一問一答の `id`、localStorage のキー（`_v2` の4つ）は変えない。学習記録が消える。
+   - `sw.js` は基本触らない。変えたら `CACHE` の名前の数字を上げる。
+6. 確認：`index.html` の各 `<script>` を `node --check` し、`DEFAULT_PACKS` が展開できること、Playwright（390px幅）で全セットの各タブがエラーなく開くことを確かめてからコミットする。
+7. 作業が終わったら `main` に直接コミットして push する（ブランチやプルリクエストは作らない）。`app/source.html` と `index.html` はいっしょにコミットする。
+8. ユーザーへの報告は日本語で、短く、何を変えたか・なぜか・どこで確かめたかを書く。確かめられなかったこと（Safari 実機など）は正直に書く。
