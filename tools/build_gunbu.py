@@ -2,6 +2,7 @@
 #   python3 gunbu_a.py && python3 build_gunbu.py ../app/source.html ../app/source.html
 import json,re,sys
 from buildpack import load_rd,rubify_fn,SINGLE,Q
+from nankan import NK,QX,col
 src,out=sys.argv[1],sys.argv[2]
 H=json.load(open('gunbu_a.json',encoding='utf-8'))
 
@@ -22,7 +23,7 @@ ex=("石原莞爾:いしわらかんじ 柳条湖事件:りゅうじょうこじ
 "リットン調査団:りっとんちょうさだん 溥儀:ふぎ 執政:しっせい 満洲国:まんしゅうこく 新京:しんきょう 長春:ちょうしゅん 奉天:ほうてん 吉林:きつりん 黒竜江:こくりゅうこう "
 "熱河:ねっか 興安:こうあん 軟弱外交:なんじゃくがいこう 国権回収:こっけんかいしゅう 松岡洋右:まつおかようすけ 南満洲鉄道:みなみまんしゅうてつどう 満鉄:まんてつ "
 "張作霖:ちょうさくりん 河本大作:こうもとだいさく 既成事実:きせいじじつ 盧溝橋事件:ろこうきょうじけん 斎藤実:さいとうまこと 日満議定書:にちまんぎていしょ 満蒙:まんもう "
-"辛亥革命:しんがいかくめい 昭和恐慌:しょうわきょうこう 欠食児童:けっしょくじどう 財閥:ざいばつ 排日運動:はいにちうんどう 国際連盟:こくさいれんめい 大臣:だいじん 外務大臣:がいむだいじん")
+"辛亥革命:しんがいかくめい 昭和恐慌:しょうわきょうこう 欠食児童:けっしょくじどう 財閥:ざいばつ 排日運動:はいにちうんどう 国際連盟:こくさいれんめい 大臣:だいじん 外務大臣:がいむだいじん 本庄繁:ほんじょうしげる 板垣征四郎:いたがきせいしろう 林銑十郎:はやしせんじゅうろう 錦州:きんしゅう 王道楽土:おうどうらくど 五族協和:ごぞくきょうわ 爆弾三勇士:ばくだんさんゆうし 九カ国条約:きゅうかこくじょうやく 門戸開放:もんこかいほう")
 rubify=rubify_fn(load_rd(ex))
 lessons=[]
 for no,nav,title,unit,theme in meta:
@@ -30,10 +31,12 @@ for no,nav,title,unit,theme in meta:
     h=re.sub(r'《([^》]+)》',r"<span class='kw'>\1</span>",h); h=rubify(h)
     for w,r in SINGLE.items(): h=h.replace(f"<span class='kw'>{w}</span>",f"<span class='kw'><ruby>{w}<rt>{r}</rt></ruby></span>",1)
     h=h.replace('{Q}',Qs[no])
-    lessons.append({"no":no,"navTitle":nav,"title":title,"unitLink":unit,"theme":theme,"html":h,"visual":vis[no],"colTitle":"","colHtml":"","exam":""})
+    c=col(NK["gunbu"].get(no,[]))
+    c=rubify(re.sub(r'《([^》]+)》',r"<span class='kw'>\1</span>",c)) if c else ""
+    lessons.append({"no":no,"navTitle":nav,"title":title,"unitLink":unit,"theme":theme,"html":h,"visual":vis[no],"colTitle":"難関私大レベル（教科書の外も）" if c else "","colHtml":c,"exam":""})
 
 plain=lambda t: re.sub(r'<[^>]+>','',re.sub(r'<rt>[^<]*</rt>','',t))
-txt={L['no']:plain(L['html']) for L in lessons}
+txt={L['no']:plain(L['html']+L['colHtml']) for L in lessons}
 # 番号（id）は学習記録のキー。あとから問題を足すときは、必ず末尾に足す
 qs=[
 ("01","幣原喜重郎の協調外交を、軍や右翼は何と非難した？","軟弱外交",2,4,"「満蒙の危機」が叫ばれた。"),
@@ -49,6 +52,7 @@ qs=[
 ("01","1932年3月に建国が宣言された国は？","満洲国",1,5,"奉天・吉林・黒竜江に熱河・興安を加えた5省。"),
 ("01","満洲国の首都とされた都市は？","新京",2,4,"今の長春。"),
 ]
+qs=qs+QX['gunbu']   # 難関私大レベルの問題は末尾に足す（番号を変えないため）
 quiz=[]; miss=[]
 for i,(no,q,a,d,imp,exp) in enumerate(qs,1):
     if a not in txt[no]: miss.append(no+':'+a); continue
