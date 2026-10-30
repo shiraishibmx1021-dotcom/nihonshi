@@ -2,3 +2,4 @@ __pycache__/
 *.tmp
 tools/source_*.html
 tools/*_out.html
+tools/check_last.js
