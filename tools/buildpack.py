@@ -7,7 +7,8 @@ def load_rd(extra=''):
         f=os.path.join(HERE,('ruby.txt' if i==1 else f'ruby{i}.txt'))
         for l in open(f,encoding='utf-8').read().strip().split('\n'):
             a,b=l.split(':'); rd[a]=b
-    for bad in ['三浦','藩','元','聖','講','西軍','東軍','大都','ナウマンゾウ']: rd.pop(bad,None)
+    # 成功は「じょうごう（売官）」と「せいこう」で読みが変わるので外す。売官の意味のときは各ビルドの追加辞書で指定する
+for bad in ['三浦','藩','元','聖','講','西軍','東軍','大都','ナウマンゾウ','成功']: rd.pop(bad,None)
     src=open(os.path.join(HERE,'build1.py'),encoding='utf-8').read()
     ex=re.search(r'extra="([^"]*)"',src).group(1)+' '+extra
     for kv in ex.split():
