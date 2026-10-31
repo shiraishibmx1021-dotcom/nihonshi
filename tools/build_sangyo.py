@@ -205,7 +205,7 @@ pl=''.join(re.sub(r'\[\[[^\]]+\]\]','□',c['text']) for c in cloze)
 print('cloze',len(ans),'dup',[a for a in set(ans) if ans.count(a)>1],'leak',[a for a in set(ans) if a in pl],'overlap',[(a,b) for a in set(ans) for b in set(ans) if a!=b and a in b])
 notin=[a for a in ans if not any(a in t for t in txt.values())]; print('cloze-not-in-lessons',notin)
 
-pack={"id":"sangyo","title":"近代（産業革命と明治の文化）","subtitle":"松方財政・紡績と製糸・財閥・寄生地主制・労働問題・明治の教育と文化","order":4.3,
+pack={"id":"sangyo","title":"近代⑤（産業革命と明治の文化）","subtitle":"松方財政・紡績と製糸・財閥・寄生地主制・労働問題・明治の教育と文化","order":4.3,
 "range":"近代産業の発展と近代文化の発達 ── 松方財政から産業革命・社会問題、明治の教育・文学・美術まで（教科書 p.279〜294）",
 "timeline":timeline,"lessons":lessons,"quiz":quiz,"terms":terms,"goro":goro,"ronjutsu":ronj,"cloze":cloze,"figures":figures}
 s=open(src,encoding='utf-8').read()

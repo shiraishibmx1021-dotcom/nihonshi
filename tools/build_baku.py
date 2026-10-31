@@ -264,7 +264,7 @@ pl=''.join(re.sub(r'\[\[[^\]]+\]\]','□',c['text']) for c in cloze)
 print('cloze',len(ans),'dup',[a for a in set(ans) if ans.count(a)>1],'leak',[a for a in set(ans) if a in pl],'overlap',[(a,b) for a in set(ans) for b in set(ans) if a!=b and a in b])
 notin=[a for a in ans if not any(a in t for t in txt.values())]; print('cloze-not-in-lessons',notin)
 
-pack={"id":"bakumatsu","title":"近代（開国と幕末）","subtitle":"ペリー来航・通商条約・尊攘運動・幕府の滅亡・戊辰戦争","order":3.9,
+pack={"id":"bakumatsu","title":"近代①（開国と幕末）","subtitle":"ペリー来航・通商条約・尊攘運動・幕府の滅亡・戊辰戦争","order":3.9,
 "range":"開国と幕末の動乱、幕府の滅亡と新政府の発足 ── ペリー来航から戊辰戦争・五箇条の誓文まで（教科書 p.220〜231）",
 "timeline":timeline,"lessons":lessons,"quiz":quiz,"terms":terms,"goro":goro,"ronjutsu":ronj,"cloze":cloze,"figures":figures}
 s=open(src,encoding='utf-8').read()

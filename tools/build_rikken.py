@@ -179,7 +179,7 @@ pl=''.join(re.sub(r'\[\[[^\]]+\]\]','□',c['text']) for c in cloze)
 print('cloze',len(ans),'dup',[a for a in set(ans) if ans.count(a)>1],'leak',[a for a in set(ans) if a in pl],'overlap',[(a,b) for a in set(ans) for b in set(ans) if a!=b and a in b])
 notin=[a for a in ans if not any(a in t for t in txt.values())]; print('cloze-not-in-lessons',notin)
 
-pack={"id":"rikken","title":"近代（立憲国家の成立）","subtitle":"大同団結・内閣制度・大日本帝国憲法・初期議会・条約改正","order":4.1,
+pack={"id":"rikken","title":"近代③（立憲国家の成立）","subtitle":"大同団結・内閣制度・大日本帝国憲法・初期議会・条約改正","order":4.1,
 "range":"立憲国家の成立 ── 大同団結から憲法発布・初期議会・条約改正まで（教科書 p.250〜257）",
 "timeline":timeline,"lessons":lessons,"quiz":quiz,"terms":terms,"goro":goro,"ronjutsu":ronj,"cloze":cloze,"figures":figures}
 s=open(src,encoding='utf-8').read()

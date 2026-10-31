@@ -21,6 +21,8 @@ for p in packs:
         mk=q.get('mark') or q['a']; h=l['html']
         pts=re.findall(r"<div class='point'>([\s\S]*?)</div>",h); ny=re.findall(r"<div class='nyushi'>([\s\S]*?)</div>",h)
         pb=any(mk in plain(b) for x in pts for b in re.findall(r'<b>([\s\S]*?)</b>',x))
+        if not pts:  # まとめの枠がない古い授業は、本文の太字で代用する
+            pb=any(mk in plain(b) for b in re.findall(r'<b>([\s\S]*?)</b>',h))
         pp=any(mk in plain(x) for x in pts); nn=any(mk in plain(x) for x in ny)
         inl=mk in plain(h)
         i=5 if (pb and nn) else 4 if (pb or nn or pp) else 3

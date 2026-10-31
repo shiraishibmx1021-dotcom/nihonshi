@@ -212,7 +212,7 @@ pl=''.join(re.sub(r'\[\[[^\]]+\]\]','□',c['text']) for c in cloze)
 print('cloze',len(ans),'dup',[a for a in set(ans) if ans.count(a)>1],'leak',[a for a in set(ans) if a in pl],'overlap',[(a,b) for a in set(ans) for b in set(ans) if a!=b and a in b])
 notin=[a for a in ans if not any(a in t for t in txt.values())]; print('cloze-not-in-lessons',notin)
 
-pack={"id":"nichiro","title":"近代（日清・日露戦争）","subtitle":"朝鮮問題・日清戦争・立憲政友会・日英同盟・日露戦争・韓国併合","order":4.2,
+pack={"id":"nichiro","title":"近代④（日清・日露戦争）","subtitle":"朝鮮問題・日清戦争・立憲政友会・日英同盟・日露戦争・韓国併合","order":4.2,
 "range":"日清・日露戦争と国際関係 ── 壬午軍乱から韓国併合・桂園時代まで（教科書 p.257〜265）",
 "timeline":timeline,"lessons":lessons,"quiz":quiz,"terms":terms,"goro":goro,"ronjutsu":ronj,"cloze":cloze,"figures":figures}
 s=open(src,encoding='utf-8').read()

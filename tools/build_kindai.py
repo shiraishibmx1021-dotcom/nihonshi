@@ -282,7 +282,7 @@ pl=''.join(re.sub(r'\[\[[^\]]+\]\]','□',c['text']) for c in cloze)
 print('cloze',len(ans),'dup',[a for a in set(ans) if ans.count(a)>1],'leak',[a for a in set(ans) if a in pl],'overlap',[(a,b) for a in set(ans) for b in set(ans) if a!=b and a in b])
 notin=[a for a in ans if not any(a in t for t in txt.values())]; print('cloze-not-in-lessons',notin)
 
-pack={"id":"kindai","title":"近代（明治前期）","subtitle":"廃藩置県・徴兵令・地租改正・殖産興業・文明開化・自由民権運動","order":4,
+pack={"id":"kindai","title":"近代②（明治前期）","subtitle":"廃藩置県・徴兵令・地租改正・殖産興業・文明開化・自由民権運動","order":4,
 "range":"明治維新と富国強兵、自由民権運動 ── 版籍奉還から明治十四年の政変・激化事件まで（教科書 p.236〜250）",
 "timeline":timeline,"lessons":lessons,"quiz":quiz,"terms":terms,"goro":goro,"ronjutsu":ronj,"cloze":cloze,"figures":figures}
 s=open(src,encoding='utf-8').read()
