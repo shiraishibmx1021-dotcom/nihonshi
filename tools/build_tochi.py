@@ -1,5 +1,5 @@
 # テーマ史「土地制度史」をつくる。各時代の授業と教科書（p.192〜195・328など）をもとにする。
-#   python3 tochi_a.py && python3 build_baku.py ../app/source.html ../app/source.html
+#   python3 tochi_a.py && python3 build_tochi.py ../app/source.html ../app/source.html
 # 一問一答の id は学習記録のキー。問題は必ず末尾に足す。
 import json,re,sys
 from buildpack import load_rd,rubify_fn,SINGLE,Q
